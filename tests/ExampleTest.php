@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Skeleton\Tests;
+namespace Opmvpc\Loxphp\Tests;
 
 use PHPUnit\Framework\TestCase;
 
