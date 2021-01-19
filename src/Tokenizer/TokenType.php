@@ -27,6 +27,7 @@ class TokenType
     const T_LESS_EQUAL = 'T_LESS_EQUAL';
     const T_IDENTIFIER = 'T_IDENTIFIER';
     const T_NUMBER = 'T_NUMBER';
+    const T_STRING = 'T_STRING';
     const T_AND = 'T_AND';
     const T_CLASS = 'T_CLASS';
     const T_ELSE = 'T_ELSE';
