@@ -116,7 +116,11 @@ class Tokenizer
 
                 break;
             default:
-                Loxphp::error($this->line, 'Unexpected character.');
+                if ($this->isDigit($char)) {
+                    $this->number();
+                } else {
+                    Loxphp::error($this->line, 'Unexpected character.');
+                }
 
                 break;
         }
@@ -168,7 +172,7 @@ class Tokenizer
     private function string(): void
     {
         while ($this->peek() !== '"' && ! $this->isAtEnd()) {
-            if ($this->peek() == "\n") {
+            if ($this->peek() === "\n") {
                 $this->line++;
             }
             $this->advance();
@@ -181,7 +185,40 @@ class Tokenizer
 
         $this->advance();
 
-        $value = substr($this->source, $this->start + 1, $this->current - 1);
+        $value = substr($this->source, $this->start + 1, $this->current - 2);
         $this->addToken(TokenType::T_STRING, $value);
+    }
+
+    private function isDigit(string $char): bool
+    {
+        return $char >= 0 && $char <= 9;
+    }
+
+    private function number(): void
+    {
+        while ($this->isDigit($this->peek())) {
+            $this->advance();
+        }
+
+        if ($this->peek() === '.' && $this->isDigit($this->peekNext())) {
+            $this->advance();
+
+            while ($this->isDigit($this->peek())) {
+                $this->advance();
+            }
+        }
+
+        $value = floatval(substr($this->source, $this->start, $this->current));
+        $this->addToken(TokenType::T_NUMBER, $value);
+    }
+
+    #[Pure]
+    private function peekNext(): string
+    {
+        if ($this->current + 1 >= strlen($this->source)) {
+            return '\0';
+        }
+
+        return $this->charAt($this->current + 1);
     }
 }

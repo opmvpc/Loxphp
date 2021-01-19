@@ -106,11 +106,65 @@ class TokenizerTest extends TestCase
 
     public function testString()
     {
-        $tokenizer = new Tokenizer('"hello"');
+        $tokenizer = new Tokenizer('"hello world"');
         $tokens = $tokenizer->scanTokens();
 
         $this->assertCount(2, $tokens);
-        $this->assertEquals('T_STRING "hello" hello', $tokens[0]->__toString());
+        $this->assertEquals('T_STRING "hello world" hello world', $tokens[0]->__toString());
         $this->assertEquals('T_EOF  ', $tokens[1]->__toString());
+    }
+
+    public function testStringWithNl()
+    {
+        $string = <<<EOT
+"hello
+world"
+EOT;
+
+        $tokenizer = new Tokenizer($string);
+        $tokens = $tokenizer->scanTokens();
+
+        $this->assertCount(2, $tokens);
+        $this->assertEquals('T_EOF  ', $tokens[1]->__toString());
+    }
+
+    public function testUnclosedString()
+    {
+        $tokenizer = new Tokenizer('"hello');
+        $tokens = $tokenizer->scanTokens();
+
+        $this->assertCount(1, $tokens);
+        $this->assertEquals('T_EOF  ', $tokens[0]->__toString());
+        $this->assertTrue(Loxphp::$hadError);
+    }
+
+    public function testInt()
+    {
+        $tokenizer = new Tokenizer('214');
+        $tokens = $tokenizer->scanTokens();
+        $this->assertCount(2, $tokens);
+        $this->assertEquals('T_NUMBER 214 214', $tokens[0]->__toString());
+        $this->assertEquals('T_EOF  ', $tokens[1]->__toString());
+    }
+
+    public function testFloat()
+    {
+        $tokenizer = new Tokenizer('2.14');
+        $tokens = $tokenizer->scanTokens();
+
+        $this->assertCount(2, $tokens);
+        $this->assertEquals('T_NUMBER 2.14 2.14', $tokens[0]->__toString());
+        $this->assertEquals('T_EOF  ', $tokens[1]->__toString());
+    }
+
+    public function testFloatWithoutDecimals()
+    {
+        $tokenizer = new Tokenizer('2.');
+        $tokens = $tokenizer->scanTokens();
+
+        $this->assertCount(3, $tokens);
+        $this->assertEquals('T_NUMBER 2 2', $tokens[0]->__toString());
+        $this->assertEquals('T_DOT . ', $tokens[1]->__toString());
+        $this->assertEquals('T_EOF  ', $tokens[2]->__toString());
     }
 }
