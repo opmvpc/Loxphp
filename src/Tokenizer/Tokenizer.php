@@ -104,7 +104,20 @@ class Tokenizer
 
                 break;
             case '/':
-                if ($this->match('/')) {
+                if ($this->match('*')) {
+                    while ($this->peek() !== '*' || $this->peekNext() !== '/') {
+                        if ($this->peek() === "\n") {
+                            $this->line++;
+                        } elseif ($this->peek() === '\0') {
+                            Loxphp::error($this->line, 'Unterminated comment.');
+                            return;
+                        }
+
+                        $this->advance();
+                    }
+
+                    $this->current += 2;
+                } elseif ($this->match('/')) {
                     while ($this->peek() !== '\n' && ! $this->isAtEnd()) {
                         $this->advance();
                     }
@@ -120,6 +133,7 @@ class Tokenizer
                 break;
             case "\n":
                 $this->line++;
+
                 break;
             case '"': $this->string();
 
@@ -191,6 +205,7 @@ class Tokenizer
 
         if ($this->isAtEnd()) {
             Loxphp::error($this->line, 'Unterminated string.');
+
             return;
         }
 
@@ -238,6 +253,7 @@ class Tokenizer
     private function isAlpha(string $char): bool
     {
         $charCode = ord($char);
+
         return ($charCode >= 65 && $charCode <= 90) || ($charCode >= 97 && $charCode <= 122) || $charCode === 95;
     }
 

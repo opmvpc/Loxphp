@@ -104,6 +104,54 @@ class TokenizerTest extends TestCase
         $this->assertEquals('T_EOF  ', $tokens[2]->__toString());
     }
 
+    public function testMultiLinesComment()
+    {
+        $string = <<<EOT
+hello /* test
+
+*/ world
+EOT;
+
+        $tokenizer = new Tokenizer($string);
+        $tokens = $tokenizer->scanTokens();
+
+        $this->assertCount(3, $tokens);
+        $this->assertEquals('T_IDENTIFIER hello hello', $tokens[0]->__toString());
+        $this->assertEquals('T_IDENTIFIER world world', $tokens[1]->__toString());
+        $this->assertEquals('T_EOF  ', $tokens[2]->__toString());
+    }
+
+    public function testMultiLinesCommentOnOneLine()
+    {
+        $tokenizer = new Tokenizer('hello /* test */');
+        $tokens = $tokenizer->scanTokens();
+
+        $this->assertCount(2, $tokens);
+        $this->assertEquals('T_IDENTIFIER hello hello', $tokens[0]->__toString());
+        $this->assertEquals('T_EOF  ', $tokens[1]->__toString());
+    }
+
+    public function testNeverEndingMultiLinesComment()
+    {
+        $tokenizer = new Tokenizer('hello /* *world');
+        $tokens = $tokenizer->scanTokens();
+
+        $this->assertCount(2, $tokens);
+        $this->assertEquals('T_IDENTIFIER hello hello', $tokens[0]->__toString());
+        $this->assertEquals('T_EOF  ', $tokens[1]->__toString());
+        $this->assertTrue(Loxphp::$hadError);
+    }
+
+    public function testNeverEndingMultiLinesComment2()
+    {
+        $tokenizer = new Tokenizer('/*');
+        $tokens = $tokenizer->scanTokens();
+
+        $this->assertCount(1, $tokens);
+        $this->assertEquals('T_EOF  ', $tokens[0]->__toString());
+        $this->assertTrue(Loxphp::$hadError);
+    }
+
     public function testString()
     {
         $tokenizer = new Tokenizer('"hello world"');
