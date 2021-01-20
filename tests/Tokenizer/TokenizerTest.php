@@ -167,4 +167,26 @@ EOT;
         $this->assertEquals('T_DOT . ', $tokens[1]->__toString());
         $this->assertEquals('T_EOF  ', $tokens[2]->__toString());
     }
+
+    public function testIdentifier()
+    {
+        $tokenizer = new Tokenizer('hello_id123');
+        $tokens = $tokenizer->scanTokens();
+
+        $this->assertCount(2, $tokens);
+        $this->assertEquals('T_IDENTIFIER hello_id123 hello_id123', $tokens[0]->__toString());
+        $this->assertEquals('T_EOF  ', $tokens[1]->__toString());
+    }
+
+    public function testReservedKeyword()
+    {
+        $tokenizer = new Tokenizer('for if else');
+        $tokens = $tokenizer->scanTokens();
+
+        $this->assertCount(4, $tokens);
+        $this->assertEquals('T_FOR for for', $tokens[0]->__toString());
+        $this->assertEquals('T_IF if if', $tokens[1]->__toString());
+        $this->assertEquals('T_ELSE else else', $tokens[2]->__toString());
+        $this->assertEquals('T_EOF  ', $tokens[3]->__toString());
+    }
 }

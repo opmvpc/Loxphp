@@ -21,14 +21,23 @@ class Tokenizer
     private int $line = 1;
 
     /**
+     * @var array<string, string>
+     */
+    private static array $keywords = [];
+
+    /**
      * Tokenizer constructor.
      * @param string $source
      */
     public function __construct(
         private string $source,
     ) {
+        $this->setKeywords();
     }
 
+    /**
+     * @return Token[]
+     */
     public function scanTokens() : array
     {
         while (! $this->isAtEnd()) {
@@ -118,6 +127,8 @@ class Tokenizer
             default:
                 if ($this->isDigit($char)) {
                     $this->number();
+                } elseif ($this->isAlpha($char)) {
+                    $this->identifier();
                 } else {
                     Loxphp::error($this->line, 'Unexpected character.');
                 }
@@ -189,6 +200,7 @@ class Tokenizer
         $this->addToken(TokenType::T_STRING, $value);
     }
 
+    #[Pure]
     private function isDigit(string $char): bool
     {
         return $char >= 0 && $char <= 9;
@@ -220,5 +232,53 @@ class Tokenizer
         }
 
         return $this->charAt($this->current + 1);
+    }
+
+    #[Pure]
+    private function isAlpha(string $char): bool
+    {
+        $charCode = ord($char);
+        return ($charCode >= 65 && $charCode <= 90) || ($charCode >= 97 && $charCode <= 122) || $charCode === 95;
+    }
+
+    private function identifier(): void
+    {
+        while ($this->isAlphaNumeric($this->peek())) {
+            $this->advance();
+        }
+
+        $text = substr($this->source, $this->start, $this->current - $this->start);
+        if (array_key_exists($text, self::$keywords)) {
+            $type = self::$keywords[$text];
+        } else {
+            $type = TokenType::T_IDENTIFIER;
+        }
+        $this->addToken($type, $text);
+    }
+
+    #[Pure]
+    private function isAlphaNumeric(string $char): bool
+    {
+        return $this->isAlpha($char) || $this->isDigit($char);
+    }
+
+    private function setKeywords(): void
+    {
+        self::$keywords['and'] = TokenType::T_AND;
+        self::$keywords['class'] = TokenType::T_CLASS;
+        self::$keywords['else'] = TokenType::T_ELSE;
+        self::$keywords['false'] = TokenType::T_FALSE;
+        self::$keywords['for'] = TokenType::T_FOR;
+        self::$keywords['fun'] = TokenType::T_FUN;
+        self::$keywords['if'] = TokenType::T_IF;
+        self::$keywords['nil'] = TokenType::T_NIL;
+        self::$keywords['or'] = TokenType::T_OR;
+        self::$keywords['print'] = TokenType::T_PRINT;
+        self::$keywords['return'] = TokenType::T_RETURN;
+        self::$keywords['super'] = TokenType::T_SUPER;
+        self::$keywords['this'] = TokenType::T_THIS;
+        self::$keywords['true'] = TokenType::T_TRUE;
+        self::$keywords['var'] = TokenType::T_VAR;
+        self::$keywords['while'] = TokenType::T_WHILE;
     }
 }
