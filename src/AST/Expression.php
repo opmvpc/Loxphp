@@ -8,5 +8,4 @@ use JetBrains\PhpStorm\Immutable;
 #[Immutable]
 abstract class Expression
 {
-
 }

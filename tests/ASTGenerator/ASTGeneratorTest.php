@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 class ASTGeneratorTest extends TestCase
 {
-
     public function testGenerateASTClasses()
     {
         $generator = new ASTGenerator();
