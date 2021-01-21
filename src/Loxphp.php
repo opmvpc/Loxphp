@@ -11,24 +11,17 @@ class Loxphp
     public static bool $hadError = false;
 
     /**
-     * @psalm-suppress InvalidArgument
      * @param string $fileName
      */
     public static function runFile(string $fileName): void
     {
-        set_error_handler(function (int $severity, string $message, string $file, int $line) {
-            try {
-                throw new \ErrorException($message, $severity, $severity, $file, $line);
-            } catch (\Throwable $th) {
-                fwrite(STDERR, 'ERROR : File does not exist!');
-            }
-        });
-
-
-        $source = file_get_contents($fileName);
-        static::run($source);
-
-        restore_error_handler();
+        if (! file_exists($fileName)) {
+            echo("\033[31mERROR : File does not exist!\n\033[0m");
+            self::$hadError = true;
+        } else {
+            $source = file_get_contents($fileName);
+            static::run($source);
+        }
 
         if (static::$hadError) {
             exit(65);
@@ -56,14 +49,14 @@ class Loxphp
         }
     }
 
-    public static function error(int $line, string $message): void
+    public static function error(int $line, string $message, ?string $where = null): void
     {
-        static::reportError($line, '', $message);
+        static::reportError($line, $message, $where);
     }
 
-    private static function reportError(int $line, string $where, string $message): void
+    private static function reportError(int $line, string $message, ?string $where = null): void
     {
-        fwrite(STDERR, "ERROR at line {$line} in {$where} : {$message}");
+        echo("\033[31mERROR at line {$line} in {$where} : {$message}\n\033[0m");
         static::$hadError = true;
     }
 }

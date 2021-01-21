@@ -69,6 +69,7 @@ class TokenizerTest extends TestCase
         $this->assertCount(1, $tokens);
         $this->assertEquals('T_EOF  ', $tokens[0]->__toString());
         $this->assertTrue(Loxphp::$hadError);
+        $this->expectOutputString("[31mERROR at line 1 in  : Unexpected character \"~\".\n[0m");
     }
 
     public function testIgnoreSomeChars()
@@ -140,16 +141,18 @@ EOT;
         $this->assertEquals('T_IDENTIFIER hello hello', $tokens[0]->__toString());
         $this->assertEquals('T_EOF  ', $tokens[1]->__toString());
         $this->assertTrue(Loxphp::$hadError);
+        $this->expectOutputString("[31mERROR at line 1 in  : Unterminated comment.\n[0m");
     }
 
     public function testNeverEndingMultiLinesComment2()
     {
-        $tokenizer = new Tokenizer('/*');
+        $tokenizer = new Tokenizer("\n\n/*");
         $tokens = $tokenizer->scanTokens();
 
         $this->assertCount(1, $tokens);
         $this->assertEquals('T_EOF  ', $tokens[0]->__toString());
         $this->assertTrue(Loxphp::$hadError);
+        $this->expectOutputString("[31mERROR at line 3 in  : Unterminated comment.\n[0m");
     }
 
     public function testString()
@@ -184,6 +187,7 @@ EOT;
         $this->assertCount(1, $tokens);
         $this->assertEquals('T_EOF  ', $tokens[0]->__toString());
         $this->assertTrue(Loxphp::$hadError);
+        $this->expectOutputString("[31mERROR at line 1 in  : Unterminated string.\n[0m");
     }
 
     public function testInt()

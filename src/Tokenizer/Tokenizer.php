@@ -144,7 +144,7 @@ class Tokenizer
                 } elseif ($this->isAlpha($char)) {
                     $this->identifier();
                 } else {
-                    Loxphp::error($this->line, 'Unexpected character.');
+                    Loxphp::error($this->line, "Unexpected character \"{$char}\".");
                 }
 
                 break;
