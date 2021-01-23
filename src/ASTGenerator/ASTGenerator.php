@@ -24,7 +24,7 @@ class ASTGenerator
 
     public function generateASTClasses(): void
     {
-        echo("\nGenerating classes...". PHP_EOL. PHP_EOL);
+        echo(PHP_EOL ."Generating classes...". PHP_EOL. PHP_EOL);
         foreach ($this->data as $class) {
             $classCode = $this->render($class);
             file_put_contents(__DIR__. "/../AST/{$class->getClassName()}.php", $classCode);
