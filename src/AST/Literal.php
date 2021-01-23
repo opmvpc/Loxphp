@@ -9,6 +9,7 @@ use JetBrains\PhpStorm\Immutable;
 #[Immutable]
 class Literal extends Expression
 {
+
     /**
      * @param Object $value
     */
@@ -21,4 +22,5 @@ class Literal extends Expression
     {
         return $this->value;
     }
+
 }

@@ -56,7 +56,7 @@ class Loxphp
 
     private static function reportError(int $line, string $message, ?string $where = null): void
     {
-        echo("\033[31mERROR at line {$line} in {$where} : {$message}\n\033[0m");
+        echo("\033[31mERROR at line {$line} in {$where} : {$message}". PHP_EOL ."\033[0m");
         static::$hadError = true;
     }
 }

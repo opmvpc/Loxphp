@@ -20,31 +20,31 @@ class PhpRenderer implements Renderer
      */
     public function header(string $nameSpace, ?array $use): string
     {
-        $code = "<?php\n";
-        $code .= "\n";
-        $code .= "declare(strict_types=1);\n";
-        $code .= "\n";
-        $code .= "namespace {$nameSpace};\n";
-        $code .= "\n";
-        $code .= "use JetBrains\PhpStorm\Immutable;\n";
+        $code = "<?php". PHP_EOL;
+        $code .= PHP_EOL;
+        $code .= "declare(strict_types=1);". PHP_EOL;
+        $code .= PHP_EOL;
+        $code .= "namespace {$nameSpace};". PHP_EOL;
+        $code .= PHP_EOL;
+        $code .= "use JetBrains\PhpStorm\Immutable;". PHP_EOL;
 
         if ($use !== null) {
             foreach ($use as $import) {
-                $code .= "use {$import};\n";
+                $code .= "use {$import};". PHP_EOL;
             }
         }
 
-        $code .= "\n";
+        $code .= PHP_EOL;
 
         return $code;
     }
 
     public function class(string $className, string $extends): string
     {
-        $code = "#[Immutable]\n";
-        $code .= "class {$className} extends {$extends}\n";
-        $code .= "{\n";
-        $code .= "\n";
+        $code = "#[Immutable]". PHP_EOL;
+        $code .= "class {$className} extends {$extends}". PHP_EOL;
+        $code .= "{". PHP_EOL;
+        $code .= PHP_EOL;
 
         return $code;
     }
@@ -55,22 +55,22 @@ class PhpRenderer implements Renderer
      */
     public function constructor(array $properties): string
     {
-        $code = "    /**\n";
+        $code = "    /**". PHP_EOL;
 
         foreach ($properties as $property) {
-            $code .= "     * @param {$property->getType()} \${$property->getName()}\n";
+            $code .= "     * @param {$property->getType()} \${$property->getName()}". PHP_EOL;
         }
 
-        $code .= "    */\n";
-        $code .= "    public function __construct(\n";
+        $code .= "    */". PHP_EOL;
+        $code .= "    public function __construct(". PHP_EOL;
 
         foreach ($properties as $property) {
-            $code .= "        private {$property->getType()} \${$property->getName()},\n";
+            $code .= "        private {$property->getType()} \${$property->getName()},". PHP_EOL;
         }
 
-        $code .= "    ) {\n";
-        $code .= "    }\n";
-        $code .= "\n";
+        $code .= "    ) {". PHP_EOL;
+        $code .= "    }". PHP_EOL;
+        $code .= PHP_EOL;
 
         return $code;
     }
@@ -84,10 +84,10 @@ class PhpRenderer implements Renderer
         $code = '';
         foreach ($properties as $property) {
             $getterName = "get". ucfirst($property->getName());
-            $code .= "    public function {$getterName}(): {$property->getType()}\n";
-            $code .= "    {\n";
-            $code .= "        return \$this->{$property->getName()};\n";
-            $code .= "    }\n\n";
+            $code .= "    public function {$getterName}(): {$property->getType()}". PHP_EOL;
+            $code .= "    {". PHP_EOL;
+            $code .= "        return \$this->{$property->getName()};". PHP_EOL;
+            $code .= "    }". PHP_EOL. PHP_EOL;
         }
 
         return $code;
@@ -95,6 +95,6 @@ class PhpRenderer implements Renderer
 
     public function footer(): string
     {
-        return "}\n";
+        return "}". PHP_EOL;
     }
 }

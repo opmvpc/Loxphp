@@ -10,6 +10,7 @@ use Opmvpc\Loxphp\Tokenizer\Token;
 #[Immutable]
 class Binary extends Expression
 {
+
     /**
      * @param Expression $left
      * @param Token $operator
@@ -36,4 +37,5 @@ class Binary extends Expression
     {
         return $this->right;
     }
+
 }
