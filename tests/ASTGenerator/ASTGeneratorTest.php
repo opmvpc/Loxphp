@@ -30,8 +30,6 @@ EOT;
         self::assertFileExists(__DIR__ . "/../../src/AST/Binary.php");
     }
 
-
-
     public function testGeneratedCodeIsWellFormed()
     {
         $expectedPath = __DIR__ . "/ExpectedBinaryClassCode.txt";

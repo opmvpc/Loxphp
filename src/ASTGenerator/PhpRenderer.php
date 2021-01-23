@@ -6,23 +6,18 @@ namespace Opmvpc\Loxphp\ASTGenerator;
 
 class PhpRenderer implements Renderer
 {
-
     /**
      * PhpRenderer constructor.
      */
-
     public function __construct()
     {
     }
-
-
 
     /**
      * @param string $nameSpace
      * @param string[]|null $use
      * @return string
      */
-
     public function header(string $nameSpace, ?array $use): string
     {
         $code = "<?php\n";
@@ -44,8 +39,6 @@ class PhpRenderer implements Renderer
         return $code;
     }
 
-
-
     public function class(string $className, string $extends): string
     {
         $code = "#[Immutable]\n";
@@ -56,13 +49,10 @@ class PhpRenderer implements Renderer
         return $code;
     }
 
-
-
     /**
      * @param PropertyTemplate[] $properties
      * @return string
      */
-
     public function constructor(array $properties): string
     {
         $code = "    /**\n";
@@ -85,13 +75,10 @@ class PhpRenderer implements Renderer
         return $code;
     }
 
-
-
     /**
      * @param PropertyTemplate[] $properties
      * @return string
      */
-
     public function getters(array $properties): string
     {
         $code = '';
@@ -105,8 +92,6 @@ class PhpRenderer implements Renderer
 
         return $code;
     }
-
-
 
     public function footer(): string
     {
