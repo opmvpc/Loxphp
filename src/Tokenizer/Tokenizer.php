@@ -110,6 +110,7 @@ class Tokenizer
                             $this->line++;
                         } elseif ($this->peek() === '\0') {
                             Loxphp::error($this->line, 'Unterminated comment.');
+
                             return;
                         }
 

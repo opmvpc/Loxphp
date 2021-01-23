@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Opmvpc\Loxphp\ASTGenerator;
 
-
 class PropertyTemplate
 {
-
     /**
      * PropertyTemplate constructor.
      * @param string $type
@@ -34,6 +32,4 @@ class PropertyTemplate
     {
         return $this->name;
     }
-
-
 }

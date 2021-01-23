@@ -10,7 +10,6 @@ use Opmvpc\Loxphp\Tokenizer\Token;
 #[Immutable]
 class Unary extends Expression
 {
-
     /**
      * @param Token $operator
      * @param Expression $right
@@ -30,5 +29,4 @@ class Unary extends Expression
     {
         return $this->right;
     }
-
 }

@@ -9,7 +9,6 @@ use JetBrains\PhpStorm\Immutable;
 #[Immutable]
 class Grouping extends Expression
 {
-
     /**
      * @param Expression $expression
     */
@@ -22,5 +21,4 @@ class Grouping extends Expression
     {
         return $this->expression;
     }
-
 }

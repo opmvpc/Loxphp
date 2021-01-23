@@ -49,5 +49,4 @@ class ClassTemplate
     {
         return $this->properties;
     }
-
 }
