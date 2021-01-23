@@ -24,13 +24,13 @@ class ASTGenerator
 
     public function generateASTClasses(): void
     {
-        echo("\nGenerating classes...\n\n");
+        echo("\nGenerating classes...". PHP_EOL. PHP_EOL);
         foreach ($this->data as $class) {
             $classCode = $this->render($class);
             file_put_contents(__DIR__. "/../AST/{$class->getClassName()}.php", $classCode);
             echo("\33[32m    ✅ ". ClassTemplate::NAMESPACE ."\\". $class->getClassName() . PHP_EOL ."\33[0m");
         }
-        echo("\nClasses generated!\n");
+        echo(PHP_EOL ."Classes generated!". PHP_EOL);
     }
 
     private function setImplementation(): void
