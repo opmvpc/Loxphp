@@ -25,8 +25,6 @@ class PhpRenderer implements Renderer
         $code .= "declare(strict_types=1);". PHP_EOL;
         $code .= PHP_EOL;
         $code .= "namespace {$nameSpace};". PHP_EOL;
-        $code .= PHP_EOL;
-        $code .= "use JetBrains\PhpStorm\Immutable;". PHP_EOL;
 
         if ($use !== null) {
             foreach ($use as $import) {
@@ -41,10 +39,8 @@ class PhpRenderer implements Renderer
 
     public function class(string $className, string $extends): string
     {
-        $code = "#[Immutable]". PHP_EOL;
-        $code .= "class {$className} extends {$extends}". PHP_EOL;
+        $code = "class {$className} extends {$extends}". PHP_EOL;
         $code .= "{". PHP_EOL;
-        $code .= PHP_EOL;
 
         return $code;
     }
@@ -70,7 +66,16 @@ class PhpRenderer implements Renderer
 
         $code .= "    ) {". PHP_EOL;
         $code .= "    }". PHP_EOL;
-        $code .= PHP_EOL;
+
+        return $code;
+    }
+
+    public function acceptMethod(string $className): string
+    {
+        $code = PHP_EOL ."    public function accept(Visitor \$visitor) : bool | int | float | string | object | null". PHP_EOL;
+        $code .= "    {". PHP_EOL;
+        $code .= "        return \$visitor->visit{$className}(\$this);". PHP_EOL;
+        $code .= "    }". PHP_EOL;
 
         return $code;
     }
@@ -84,10 +89,10 @@ class PhpRenderer implements Renderer
         $code = '';
         foreach ($properties as $property) {
             $getterName = "get". ucfirst($property->getName());
-            $code .= "    public function {$getterName}(): {$property->getType()}". PHP_EOL;
+            $code .= PHP_EOL ."    public function {$getterName}(): {$property->getType()}". PHP_EOL;
             $code .= "    {". PHP_EOL;
             $code .= "        return \$this->{$property->getName()};". PHP_EOL;
-            $code .= "    }". PHP_EOL. PHP_EOL;
+            $code .= "    }". PHP_EOL;
         }
 
         return $code;

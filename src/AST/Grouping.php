@@ -3,13 +3,10 @@
 declare(strict_types=1);
 
 namespace Opmvpc\Loxphp\AST;
+use Opmvpc\Loxphp\Visitor\Visitor;
 
-use JetBrains\PhpStorm\Immutable;
-
-#[Immutable]
 class Grouping extends Expression
 {
-
     /**
      * @param Expression $expression
     */
@@ -18,9 +15,13 @@ class Grouping extends Expression
     ) {
     }
 
+    public function accept(Visitor $visitor) : bool | int | float | string | object | null
+    {
+        return $visitor->visitGrouping($this);
+    }
+
     public function getExpression(): Expression
     {
         return $this->expression;
     }
-
 }

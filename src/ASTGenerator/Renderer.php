@@ -22,6 +22,8 @@ interface Renderer
      */
     public function constructor(array $properties): string;
 
+    public function acceptMethod(string $className): string;
+
     /**
      * @param PropertyTemplate[] $properties
      * @return string

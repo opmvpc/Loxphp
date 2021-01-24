@@ -3,13 +3,10 @@
 declare(strict_types=1);
 
 namespace Opmvpc\Loxphp\AST;
+use Opmvpc\Loxphp\Visitor\Visitor;
 
-use JetBrains\PhpStorm\Immutable;
-
-#[Immutable]
 class Literal extends Expression
 {
-
     /**
      * @param Object $value
     */
@@ -18,9 +15,13 @@ class Literal extends Expression
     ) {
     }
 
+    public function accept(Visitor $visitor) : bool | int | float | string | object | null
+    {
+        return $visitor->visitLiteral($this);
+    }
+
     public function getValue(): Object
     {
         return $this->value;
     }
-
 }

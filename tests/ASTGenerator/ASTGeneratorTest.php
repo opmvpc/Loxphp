@@ -17,7 +17,8 @@ class ASTGeneratorTest extends TestCase
 
 Generating classes...
 
-[32m    ✅ Opmvpc\Loxphp\AST\Binary
+[32m    ✅ Opmvpc\Loxphp\Visitor\Visitor
+[0m[32m    ✅ Opmvpc\Loxphp\AST\Binary
 [0m[32m    ✅ Opmvpc\Loxphp\AST\Grouping
 [0m[32m    ✅ Opmvpc\Loxphp\AST\Literal
 [0m[32m    ✅ Opmvpc\Loxphp\AST\Unary

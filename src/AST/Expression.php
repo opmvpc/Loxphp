@@ -3,9 +3,9 @@
 
 namespace Opmvpc\Loxphp\AST;
 
-use JetBrains\PhpStorm\Immutable;
+use Opmvpc\Loxphp\Visitor\Visitor;
 
-#[Immutable]
 abstract class Expression
 {
+    abstract public function accept(Visitor $visitor): bool | int | float | string | object | null;
 }

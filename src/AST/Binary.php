@@ -3,14 +3,11 @@
 declare(strict_types=1);
 
 namespace Opmvpc\Loxphp\AST;
-
-use JetBrains\PhpStorm\Immutable;
 use Opmvpc\Loxphp\Tokenizer\Token;
+use Opmvpc\Loxphp\Visitor\Visitor;
 
-#[Immutable]
 class Binary extends Expression
 {
-
     /**
      * @param Expression $left
      * @param Token $operator
@@ -21,6 +18,11 @@ class Binary extends Expression
         private Token $operator,
         private Expression $right,
     ) {
+    }
+
+    public function accept(Visitor $visitor) : bool | int | float | string | object | null
+    {
+        return $visitor->visitBinary($this);
     }
 
     public function getLeft(): Expression
@@ -37,5 +39,4 @@ class Binary extends Expression
     {
         return $this->right;
     }
-
 }
