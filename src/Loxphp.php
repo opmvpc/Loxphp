@@ -22,10 +22,6 @@ class Loxphp
             $source = file_get_contents($fileName);
             static::run($source);
         }
-
-        if (static::$hadError) {
-            exit(65);
-        }
     }
 
     public static function runPrompt(): void
@@ -45,7 +41,7 @@ class Loxphp
     {
         $tokens = (new Tokenizer($source))->scanTokens();
         foreach ($tokens as $token) {
-            echo("{$token}\n");
+            echo("{$token}". PHP_EOL);
         }
     }
 
