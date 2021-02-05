@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Opmvpc\Loxphp\AST;
+
 use Opmvpc\Loxphp\Visitor\Visitor;
 
 class Grouping extends Expression
