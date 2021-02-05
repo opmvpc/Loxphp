@@ -17,6 +17,38 @@ class Token
     ) {
     }
 
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLexeme(): string
+    {
+        return $this->lexeme;
+    }
+
+    /**
+     * @return bool|float|int|string|null
+     */
+    public function getLiteral(): float | bool | int | string | null
+    {
+        return $this->literal;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLine(): int
+    {
+        return $this->line;
+    }
+
     public function __toString(): string
     {
         return "{$this->type} {$this->lexeme} {$this->literal}";

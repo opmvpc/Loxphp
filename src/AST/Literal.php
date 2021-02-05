@@ -8,10 +8,10 @@ use Opmvpc\Loxphp\Visitor\Visitor;
 class Literal extends Expression
 {
     /**
-     * @param Object $value
+     * @param float | bool | int | string | null $value
     */
     public function __construct(
-        private Object $value,
+        private float | bool | int | string | null $value,
     ) {
     }
 
@@ -20,7 +20,7 @@ class Literal extends Expression
         return $visitor->visitLiteral($this);
     }
 
-    public function getValue(): Object
+    public function getValue(): float | bool | int | string | null
     {
         return $this->value;
     }

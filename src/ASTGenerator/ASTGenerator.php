@@ -71,7 +71,7 @@ class ASTGenerator
             new ClassTemplate(
                 'Literal',
                 [
-                    new PropertyTemplate('Object', 'value'),
+                    new PropertyTemplate('float | bool | int | string | null', 'value'),
                 ],
                 [
                     'Opmvpc\Loxphp\Visitor\Visitor',
